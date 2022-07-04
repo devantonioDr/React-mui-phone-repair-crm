@@ -1,115 +1,114 @@
-import Grid from "@mui/material/Grid";
-import TextField, { TextFieldProps } from "@mui/material/TextField";
-
 import React from "react";
-import { useState } from "react";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import Stepper from '@mui/material/Stepper';
+import Step from '@mui/material/Step';
+import StepLabel from '@mui/material/StepLabel';
+import StepContent from '@mui/material/StepContent';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import Button from "@mui/material/Button";
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+
+// Hooks
+import { useStepperState } from "./hooks/useStepperState";
+import { useDialogState } from "./hooks/useDialogState";
+import RepairForm from "./repairForm";
+import ClientForm from "./clientForm";
+import CostForm from "./costForm";
+
 
 interface InsertRepairProps { }
-const inputFieldsMeta: TextFieldProps | any[] = [
+
+
+
+const steps = [
     {
-        error: false,
-        id: "device_brand",
-        label: "Marca del dispositivo",
-        variant: "outlined",
-        value: "",
-        helperText: " ",
-        helperTextError: "La marca del dispositivo es requerida",
-        size: "small",
+        label: 'Datos de la Reparación',
+        description: '',
     },
     {
-        error: false,
-        id: "device_model",
-        label: "Modelo del dispositivo",
-        variant: "outlined",
-        value: "",
-        helperText: " ",
-        helperTextError: "El modelo del dispositivo es requerido",
-        size: "small",
+        label: 'Datos del cliente',
+        description: '',
     },
     {
-        error: false,
-        id: "device_color",
-        label: "Color del dispositivo",
-        variant: "outlined",
-        value: "",
-        helperText: " ",
-        helperTextError: "El color del dispositivo es requerido",
-        size: "small",
+        label: 'Create an ad',
+        description: ``,
     },
-    {
-        error: false,
-        id: "serial_number",
-        label: "IMEI/ESN (opcional)",
-        variant: "outlined",
-        value: "",
-        helperText: " ",
-        helperTextError: "",
-        size: "small",
-    },
-    {
-        error: false,
-        id: "why_repaired",
-        label: "Motivo de ingreso (falla)",
-        variant: "outlined",
-        value: "",
-        helperText: " ",
-        helperTextError: "El motivo de ingreso del dispositivo es requerido",
-        size: "small",
-        collumns:12
-    },
-    {
-        error: false,
-        id: "device_state",
-        label: "Estado del dispositivo (opcional)",
-        variant: "outlined",
-        value: "",
-        helperText: " ",
-        helperTextError: "El motivo de ingreso del dispositivo es requerido",
-        size: "small",
-        collumns:12
-    }
 ];
 
-export const InsertRepair = ({ }: InsertRepairProps) => {
-    let [textFieldsState, setTextFieldState] = useState(inputFieldsMeta);
-    const handleChange = (event: any, index: number) => {
-        textFieldsState[index].error = false;
-        textFieldsState[index].value = event.target.value;
-        setTextFieldState(textFieldsState.slice());
-    }
-    const handleBlur = (event: any, index: number) => {
-        textFieldsState[index].error = false;
-        textFieldsState[index].color ='success'
-        if (textFieldsState[index].value.trim() == '') {
-            textFieldsState[index].error = true;
-            setTextFieldState(textFieldsState.slice());
-        }
-    }
-    return (<Grid columns={12} container spacing={2}>
+const BackAndForthStepperButtons = ({ handleBack, handleNext, handleFinish, index, steps }: any) => {
+    const isFirstStep = index === 0;
+    const isLastStep = index === steps.length - 1;
 
-        {textFieldsState.map((info, index) => {
-            if (info.error) {
-                info.helperText = info.helperTextError;
-            } else {
-                info.helperText = " ";
-            }
-            return (
-                <Grid key={info.id} item xs={info.collumns || 6}>
-                    {/* <FormControl variant={info.variant} error={info.error}>
-                        <InputLabel htmlFor={info.id}>{info.label}</InputLabel>
-                        <Input id={info.id} aria-describedby={info.label} />
-                        <FormHelperText id={info.id + '-helper-text'}>{info.helperText}</FormHelperText>
-                    </FormControl> */}
-                    <TextField
-                        fullWidth={true}
-                        // margin='dense'
-                        onBlur={(e) => handleBlur(e, index)}
-                        onChange={(e) => handleChange(e, index)}
-                        {...info}
-                    />
-                </Grid>
-            )
-        })}
-    </Grid>
+    return (<Box sx={{ mb: 2 }}>
+        <div>
+            <Button disabled={isFirstStep} onClick={handleBack} sx={{ mt: 1, mr: 1 }}>
+                Atras
+            </Button>
+            <Button variant="contained" onClick={() => isLastStep ? handleFinish() : handleNext()} sx={{ mt: 1, mr: 1 }}>
+                {isLastStep ? 'Finish' : 'Siguiente'}
+                <ArrowRightIcon />
+            </Button>
+        </div>
+    </Box>);
+};
+
+export const InsertRepair = ({ }: InsertRepairProps) => {
+    // Stepper state
+    const { activeStep, setActiveStep, handleNext, handleBack, handleReset } = useStepperState();
+    // Dialog state
+    const { open: dialogOpen, handleClickOpen, handleClose } = useDialogState();
+
+    const handleFinish = () => {
+        console.log('Finished..')
+    };
+
+    return (
+        <>
+            <Dialog maxWidth='sm' fullScreen={false} open={dialogOpen} onClose={handleClose}>
+                <DialogTitle>Agregar reparación</DialogTitle>
+                <DialogContent>
+                    <Box>
+                        <Stepper activeStep={activeStep} orientation="vertical">
+                            {steps.map((step, index) => (
+                                <Step key={step.label}>
+                                    <StepLabel>
+                                        {step.label}
+                                    </StepLabel>
+                                    <StepContent>
+                                        <Typography>{step.description}</Typography>
+                                        {(() => {
+                                            switch (index) {
+                                                case 0:
+                                                    return <RepairForm />
+                                                case 1:
+                                                    return <ClientForm />
+                                                case 2:
+                                                    return <CostForm />
+                                                default:
+                                                    return null
+                                            }
+                                        })()}
+                                        <BackAndForthStepperButtons
+                                            handleBack={handleBack}
+                                            handleNext={handleNext}
+                                            handleFinish={handleFinish}
+                                            index={index}
+                                            steps={steps}
+                                        />
+                                    </StepContent>
+                                </Step>
+                            ))}
+                        </Stepper>
+                    </Box>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}> Cancelar </Button>
+                </DialogActions>
+            </Dialog>
+        </>
     );
 };
