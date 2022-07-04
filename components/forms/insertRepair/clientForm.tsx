@@ -7,8 +7,9 @@ import RenderFormItem from "./renderFormItem";
 const clientDataForm: useFormStateInitialState = [
   {
     type: "TextField",
+    isFocused: false,
     helperTextError: "El Nombre del cliente es requerido",
-    required:true,
+    required: true,
     inputProps: {
       error: false,
       id: "client_name",
@@ -21,6 +22,7 @@ const clientDataForm: useFormStateInitialState = [
   },
   {
     type: "TextField",
+    isFocused: false,
     helperTextError: "",
     inputProps: {
       error: false,
@@ -34,6 +36,7 @@ const clientDataForm: useFormStateInitialState = [
   },
   {
     type: "TextField",
+    isFocused: false,
     helperTextError: "",
     collumns: 12,
     inputProps: {
@@ -48,6 +51,7 @@ const clientDataForm: useFormStateInitialState = [
   },
   {
     type: "TextField",
+    isFocused: false,
     helperTextError: "",
     collumns: 12,
     inputProps: {
@@ -64,7 +68,7 @@ const clientDataForm: useFormStateInitialState = [
 
 
 
-interface ClientFormProps {}
+interface ClientFormProps { }
 export default function ClientForm(props: ClientFormProps) {
   let { textFieldsState, setTextFieldState, handleChange, handleError } =
     useFormState(clientDataForm);
@@ -72,14 +76,14 @@ export default function ClientForm(props: ClientFormProps) {
     <Grid style={{ paddingTop: "20px" }} columns={12} container spacing={1}>
 
       {textFieldsState.map((data, index) => {
-        
+
         return (
           <Grid key={data.inputProps.id} item xs={data.collumns || 6}>
-            <RenderFormItem 
-                    handleChange={handleChange}
-                    handleError={handleError} 
-                    index={index}
-                    data={data}      
+            <RenderFormItem
+              handleChange={handleChange}
+              handleError={handleError}
+              index={index}
+              data={data}
             />
           </Grid>
         );

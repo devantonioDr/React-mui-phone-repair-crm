@@ -7,9 +7,10 @@ import RenderFormItem from "./renderFormItem";
 const clientDataForm: useFormStateInitialState = [
     {
         type: "TextField",
+        isFocused: false,
         helperTextError: "El Número de folio es requerido",
         required: true,
-        collumns:12,
+        collumns: 12,
         inputProps: {
             error: false,
             id: "repair_id",
@@ -22,9 +23,10 @@ const clientDataForm: useFormStateInitialState = [
     },
     {
         type: "TextField",
+        isFocused: false,
         helperTextError: "",
         required: false,
-        collumns:6,
+        collumns: 6,
         inputProps: {
             error: false,
             id: "repair_stimated_cost",
@@ -37,9 +39,10 @@ const clientDataForm: useFormStateInitialState = [
     },
     {
         type: "TextField",
+        isFocused: false,
         helperTextError: "",
         required: false,
-        collumns:6,
+        collumns: 6,
         inputProps: {
             error: false,
             id: "client_money_upfront",
@@ -52,8 +55,9 @@ const clientDataForm: useFormStateInitialState = [
     },
     {
         type: "TextField",
+        isFocused: false,
         helperTextError: "",
-        collumns:12,
+        collumns: 12,
         inputProps: {
             error: false,
             id: "repair_assigned_technician",

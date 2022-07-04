@@ -6,6 +6,7 @@ import RenderFormItem from "./renderFormItem";
 const repairDataForm: useFormStateInitialState = [
   {
     type: "TextField",
+    isFocused: false,
     helperTextError: "La marca del dispositivo es requerida",
     required: true,
     inputProps: {
@@ -20,6 +21,7 @@ const repairDataForm: useFormStateInitialState = [
   },
   {
     type: "TextField",
+    isFocused: false,
     helperTextError: "El modelo del dispositivo es requerido",
     required: true,
     inputProps: {
@@ -34,6 +36,7 @@ const repairDataForm: useFormStateInitialState = [
   },
   {
     type: "TextField",
+    isFocused: false,
     helperTextError: "El color del dispositivo es requerido",
     required: true,
     inputProps: {
@@ -48,6 +51,7 @@ const repairDataForm: useFormStateInitialState = [
   },
   {
     type: "TextField",
+    isFocused: false,
     helperTextError: "",
     inputProps: {
       error: false,
@@ -61,6 +65,7 @@ const repairDataForm: useFormStateInitialState = [
   },
   {
     type: "TextField",
+    isFocused: false,
     helperTextError: "El motivo de ingreso del dispositivo es requerido",
     required: true,
     collumns: 12,
@@ -76,6 +81,7 @@ const repairDataForm: useFormStateInitialState = [
   },
   {
     type: "TextField",
+    isFocused: false,
     helperTextError: "",
     collumns: 12,
     inputProps: {
@@ -97,7 +103,7 @@ export default function RepairForm(props: repairFormProps) {
       {textFieldsState.map((data, index) => {
 
         return (
-          <Grid key={data.inputProps.id} style={{paddingTop:'0px'}} item xs={data.collumns || 6}>
+          <Grid key={data.inputProps.id} style={{ paddingTop: '0px' }} item xs={data.collumns || 6}>
             <RenderFormItem
               handleChange={handleChange}
               handleError={handleError}

@@ -7,6 +7,7 @@ import React, { memo } from 'react'
 
 export interface FormItemData {
     type: "CheckBox" | "TextField";
+    isFocused:boolean;
     helperTextError: any;
     collumns?:number;
     required?:boolean,
@@ -42,7 +43,6 @@ let RenderFormItem = ({ handleError, handleChange, index, data }: RenderTexfield
                     }
                     label="Gilad Gray"
                 />)
-            break;
         case "TextField":
             return (
                 <TextField
