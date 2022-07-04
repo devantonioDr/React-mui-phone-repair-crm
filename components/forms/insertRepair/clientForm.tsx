@@ -70,7 +70,7 @@ const clientDataForm: useFormStateInitialState = [
 
 interface ClientFormProps { }
 export default function ClientForm(props: ClientFormProps) {
-  let { textFieldsState, setTextFieldState, handleChange, handleError } =
+  let { handleFocus, textFieldsState, setTextFieldState, handleChange, handleError } =
     useFormState(clientDataForm);
   return (
     <Grid style={{ paddingTop: "20px" }} columns={12} container spacing={1}>
@@ -80,6 +80,7 @@ export default function ClientForm(props: ClientFormProps) {
         return (
           <Grid key={data.inputProps.id} item xs={data.collumns || 6}>
             <RenderFormItem
+              handleFocus={handleFocus}
               handleChange={handleChange}
               handleError={handleError}
               index={index}

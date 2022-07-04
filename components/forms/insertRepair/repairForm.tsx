@@ -94,10 +94,20 @@ const repairDataForm: useFormStateInitialState = [
       size: "small",
     },
   },
+  {
+    type: "CheckBox",
+    collumns: 6,
+    inputProps: {
+      id: "device_can_turn_on",
+      label: "Puede encender?",
+      size: "small",
+      checked: true
+    },
+  }
 ];
 interface repairFormProps { }
 export default function RepairForm(props: repairFormProps) {
-  let { textFieldsState, setTextFieldState, handleChange, handleError } = useFormState(repairDataForm);
+  let { handleFocus, textFieldsState, setTextFieldState, handleChange, handleError } = useFormState(repairDataForm);
   return (
     <Grid style={{ paddingTop: "20px" }} columnSpacing={1} columns={12} container spacing={3}>
       {textFieldsState.map((data, index) => {
@@ -105,6 +115,7 @@ export default function RepairForm(props: repairFormProps) {
         return (
           <Grid key={data.inputProps.id} style={{ paddingTop: '0px' }} item xs={data.collumns || 6}>
             <RenderFormItem
+              handleFocus={handleFocus}
               handleChange={handleChange}
               handleError={handleError}
               index={index}

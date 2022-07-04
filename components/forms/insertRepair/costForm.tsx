@@ -73,13 +73,16 @@ const clientDataForm: useFormStateInitialState = [
 interface costFormProps { }
 
 export default function CostForm(props: costFormProps) {
-    let { textFieldsState, setTextFieldState, handleChange, handleError } = useFormState(clientDataForm);
+    let { handleFocus, textFieldsState, setTextFieldState, handleChange, handleError } = useFormState(clientDataForm);
+
+    console.log(handleFocus)
     return (
         <Grid style={{ paddingTop: "20px" }} columns={12} container spacing={1}>
             {textFieldsState.map((data, index) => {
                 return (
                     <Grid key={data.inputProps.id} columnSpacing={1} item xs={data.collumns || 6}>
                         <RenderFormItem
+                            handleFocus={handleFocus}
                             handleChange={handleChange}
                             handleError={handleError}
                             index={index}
