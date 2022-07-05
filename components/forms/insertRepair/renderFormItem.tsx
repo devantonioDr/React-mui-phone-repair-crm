@@ -6,6 +6,7 @@ import { getRamdomBackgroundColor } from "../../../helper/getRamdomColor";
 
 export interface FormItemData {
     type: "CheckBox" | "TextField";
+    hasError?: boolean;
     isFocused?: boolean;
     helperTextError?: any;
     collumns?: number;
@@ -52,7 +53,7 @@ let RenderFormItem = ({
                     // margin='dense'
                     onBlur={(e) => handleError(e, index)}
                     onChange={(e) => handleChange(e, index)}
-                    FormHelperTextProps={{style:{marginTop:'-1px',marginBottom:'10px'}}}
+                    FormHelperTextProps={{ style: { marginTop: '-1px', marginBottom: '10px' } }}
                     {...data.inputProps}
                 />
             );
