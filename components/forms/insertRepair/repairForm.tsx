@@ -10,6 +10,7 @@ const repairDataForm: useFormStateInitialState = [
     helperTextError: "La marca del dispositivo es requerida",
     required: true,
     inputProps: {
+      autoComplete:'off',
       error: false,
       id: "device_brand",
       label: "Marca del dispositivo",
@@ -25,6 +26,7 @@ const repairDataForm: useFormStateInitialState = [
     helperTextError: "El modelo del dispositivo es requerido",
     required: true,
     inputProps: {
+autoComplete:'off',
       error: false,
       id: "device_model",
       label: "Modelo del dispositivo",
@@ -40,6 +42,7 @@ const repairDataForm: useFormStateInitialState = [
     helperTextError: "El color del dispositivo es requerido",
     required: true,
     inputProps: {
+autoComplete:'off',
       error: false,
       id: "device_color",
       label: "Color del dispositivo",
@@ -54,6 +57,7 @@ const repairDataForm: useFormStateInitialState = [
     isFocused: false,
     helperTextError: "",
     inputProps: {
+autoComplete:'off',
       error: false,
       id: "serial_number",
       label: "IMEI/ESN (opcional)",
@@ -70,6 +74,7 @@ const repairDataForm: useFormStateInitialState = [
     required: true,
     collumns: 12,
     inputProps: {
+autoComplete:'off',
       error: false,
       id: "why_repaired",
       label: "Motivo de ingreso (falla)",
@@ -85,6 +90,7 @@ const repairDataForm: useFormStateInitialState = [
     helperTextError: "",
     collumns: 12,
     inputProps: {
+autoComplete:'off',
       error: false,
       id: "device_state",
       label: "Estado del dispositivo (opcional)",
@@ -98,8 +104,42 @@ const repairDataForm: useFormStateInitialState = [
     type: "CheckBox",
     collumns: 6,
     inputProps: {
+autoComplete:'off',
       id: "device_can_turn_on",
       label: "Puede encender?",
+      size: "small",
+      checked: true
+    },
+  },
+  {
+    type: "CheckBox",
+    collumns: 6,
+    inputProps: {
+autoComplete:'off',
+      id: "device_has_already_been_repaired",
+      label: "Ya ha sido reparado?",
+      size: "small",
+      checked: true
+    },
+  },
+  {
+    type: "CheckBox",
+    collumns: 6,
+    inputProps: {
+autoComplete:'off',
+      id: "device_has_been_wet",
+      label: "Presenta humdad (esta mojado)?",
+      size: "small",
+      checked: true
+    },
+  },
+  {
+    type: "CheckBox",
+    collumns: 6,
+    inputProps: {
+autoComplete:'off',
+      id: "device_has_lock_method",
+      label: "Tiene metodo de blockeo?",
       size: "small",
       checked: true
     },
@@ -111,9 +151,9 @@ export default function RepairForm(props: repairFormProps) {
   return (
     <Grid style={{ paddingTop: "20px" }} columnSpacing={1} columns={12} container spacing={3}>
       {textFieldsState.map((data, index) => {
-
+        let isCheckBox = data.type == "CheckBox";
         return (
-          <Grid key={data.inputProps.id} style={{ paddingTop: '0px' }} item xs={data.collumns || 6}>
+          <Grid key={data.inputProps.id} style={isCheckBox ? {} : { paddingTop: '0px' }} item xs={data.collumns || 6}>
             <RenderFormItem
               handleFocus={handleFocus}
               handleChange={handleChange}

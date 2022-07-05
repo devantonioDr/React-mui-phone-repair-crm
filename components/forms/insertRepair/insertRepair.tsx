@@ -39,16 +39,16 @@ const steps = [
     },
 ];
 
-const BackAndForthStepperButtons = ({ handleBack, handleNext, handleFinish, index, steps }: any) => {
+const BackAndForthStepperButtons = ({ handleBack, handleNext, handleFinish, index, steps,nextDisabled }: any) => {
     const isFirstStep = index === 0;
     const isLastStep = index === steps.length - 1;
 
-    return (<Box sx={{ mb: 2 }}>
+    return (<Box sx={{ mb: 2,mt:3 }}>
         <div>
             <Button disabled={isFirstStep} onClick={handleBack} sx={{ mt: 1, mr: 1 }}>
                 Atras
             </Button>
-            <Button variant="contained" onClick={() => isLastStep ? handleFinish() : handleNext()} sx={{ mt: 1, mr: 1 }}>
+            <Button disabled={nextDisabled} variant="contained" onClick={() => isLastStep ? handleFinish() : handleNext()} sx={{ mt: 1, mr: 1 }}>
                 {isLastStep ? 'Finish' : 'Siguiente'}
                 <ArrowRightIcon />
             </Button>
@@ -66,9 +66,11 @@ export const InsertRepair = ({ }: InsertRepairProps) => {
         console.log('Finished..')
     };
 
+
+
     return (
         <>
-            <Dialog maxWidth='sm' fullScreen={false} open={dialogOpen} onClose={handleClose}>
+            <Dialog maxWidth='md' fullScreen={false} open={dialogOpen} onClose={handleClose}>
                 <DialogTitle>Agregar reparación</DialogTitle>
                 <DialogContent>
                     <Box>

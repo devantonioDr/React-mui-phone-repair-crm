@@ -29,7 +29,7 @@ let RenderFormItem = ({
     data,
 }: RenderTexfieldProps) => {
     let { type } = data;
-
+    console.log(data.inputProps);
     switch (type) {
         case "CheckBox":
             return (
@@ -47,11 +47,12 @@ let RenderFormItem = ({
         case "TextField":
             return (
                 <TextField
-                    style={getRamdomBackgroundColor()}
+                    // style={getRamdomBackgroundColor()}
                     fullWidth={true}
                     // margin='dense'
                     onBlur={(e) => handleError(e, index)}
                     onChange={(e) => handleChange(e, index)}
+                    FormHelperTextProps={{style:{marginTop:'-1px',marginBottom:'10px'}}}
                     {...data.inputProps}
                 />
             );
@@ -60,23 +61,4 @@ let RenderFormItem = ({
     }
 };
 
-export default memo(
-    RenderFormItem,
-    (
-        prevProps: Readonly<RenderTexfieldProps>,
-        nextProps: Readonly<RenderTexfieldProps>
-    ) => {
-        // Only rerender input when the textField has different value.
-        if (nextProps.data.type == "TextField") {
-            const isNotSameValue = prevProps.data.inputProps.value == nextProps.data.inputProps.value;;
-            return isNotSameValue;
-        }
-        // Rerender checkbox only when checked value changes.
-        if (nextProps.data.type == "CheckBox") {
-            const checkStatusDidNotChanged = prevProps.data.inputProps.checked === nextProps.data.inputProps.checked;
-            return checkStatusDidNotChanged;
-        }
-        // Return false to always rerender by default.
-        return false
-    }
-);
+export default RenderFormItem;

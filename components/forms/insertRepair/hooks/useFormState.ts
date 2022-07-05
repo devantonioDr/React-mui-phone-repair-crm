@@ -6,11 +6,14 @@ import { FormItemData } from "../renderFormItem";
 
 export type useFormStateInitialState = FormItemData[];
 
+const HELPER_TEXT_DEFAULT = " ";
+
 // This function is a hook that handles the state of the material-react TextFields. 
 export const useFormState = (initialState: useFormStateInitialState) => {
     let [textFieldsState, setTextFieldState] = useState(initialState);
 
     const handleFocus = (event: any, index: number) => {
+      
         // makes a copy of the state value Important.
         const newState = makeAbsoluteCopy(textFieldsState);
 
@@ -20,8 +23,7 @@ export const useFormState = (initialState: useFormStateInitialState) => {
         currentInput.isFocused = true;
         // Error is for texfields only
         if (currentInput.type == "TextField") {
-            // Changes the helperText to a blank space so that the error text despairs.
-            currentInput.inputProps.helperText = " ";
+            currentInput.inputProps.helperText = HELPER_TEXT_DEFAULT;
             currentInput.inputProps.error = false;
         }
         setTextFieldState(newState);
@@ -40,6 +42,7 @@ export const useFormState = (initialState: useFormStateInitialState) => {
         // If input is of type TextField.
         if (currentInput.type == "TextField") {
             currentInput.inputProps.error = false;
+            currentInput.inputProps.helperText = HELPER_TEXT_DEFAULT;
             currentInput.inputProps.value = event.target.value;
         }
         // Update the state with new value.
@@ -48,6 +51,8 @@ export const useFormState = (initialState: useFormStateInitialState) => {
 
     // For textfields only.
     const handleError = (event: any, index: number) => {
+
+        console.log(event);
         // makes a copy of the state value Important.
         const newState = makeAbsoluteCopy(textFieldsState);
 
