@@ -7,7 +7,7 @@ export class FromHelpers {
      * param inputFieldsMetaData FormItemData[]  
      * return boolean
      */
-    public checkIfAllRequiredFieldsAreFilled(inputFieldsMetaData:FormItemData[]){
+    public static checkIfAllRequiredFieldsAreFilled(inputFieldsMetaData:FormItemData[]){
  
         // Iterate through all metadata fields.
         for (let i = 0; i < inputFieldsMetaData.length; i++) {
