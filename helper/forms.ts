@@ -1,4 +1,4 @@
-import { FormItemData } from "../components/forms/insertRepair/renderFormItem";
+import { FormItemData } from "../components/forms/renderFormType1/RenderFormItem";
 
 export class FromHelpers {
 
