@@ -62,7 +62,7 @@ export function RepairChangeStatusDialog(props: RepairChangeStatusDialogProps) {
             <InputLabel id="repair-update-status-dialog-label">
               Nuevo estado
             </InputLabel>
-            <Select
+           {statuses.length > 0 && <Select
               disabled={isloading}
               labelId="repair-update-status-dialog-label"
               id="repair-update-status-dialog"
@@ -75,7 +75,7 @@ export function RepairChangeStatusDialog(props: RepairChangeStatusDialogProps) {
                   {data.title}
                 </MenuItem>
               ))}
-            </Select>
+            </Select>}
           </FormControl>
         </Box>
       </DialogContent>

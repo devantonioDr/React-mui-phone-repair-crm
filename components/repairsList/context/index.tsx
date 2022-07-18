@@ -31,9 +31,11 @@ export const RepairListContextProvider = (props: any) => {
 
   return (
     <RepairListContext.Provider value={contextValue}>
-      <RowShowMoreContextProvider>
-        <RowSelectContextProvider>{props.children}</RowSelectContextProvider>
-      </RowShowMoreContextProvider>
+      
+        <RowShowMoreContextProvider>
+          <RowSelectContextProvider>{props.children}</RowSelectContextProvider>
+        </RowShowMoreContextProvider>
+      
     </RepairListContext.Provider>
   );
 };

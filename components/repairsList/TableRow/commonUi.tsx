@@ -1,16 +1,19 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
+import Chip from "@mui/material/Chip";
 import Collapse from "@mui/material/Collapse";
 import Stack from "@mui/material/Stack";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
-import { memo, useContext, useMemo } from "react";
 import { getRamdomBackgroundColor } from "../../../helper/getRamdomColor";
-import { InmutableArrayMethods } from "../../../helper/inmutableArrayMethods";
-import { RowSelectContext, withContextSelectRowCheckBox } from "../context/RowSelectContext";
-import { RowShowMoreContext } from "../context/RowShowMoreContext";
+
+export function InfoIdButton({ invoiceId }: { invoiceId: string }) {
+  return (
+    <Chip clickable={true} label={invoiceId} variant="filled" color="primary" />
+  );
+};
 
 export function ShowMoreButton({
   onClick,
@@ -23,7 +26,7 @@ export function ShowMoreButton({
 }) {
   return (
     <Box
-      style={getRamdomBackgroundColor()}
+      // style={getRamdomBackgroundColor()}
       sx={{ display: "flex", justifyContent: "center" }}
     >
       <Button
@@ -36,17 +39,19 @@ export function ShowMoreButton({
       </Button>
     </Box>
   );
-};
+}
 
 export function RowExtraInfo({
   reasonForAdmission,
-  isExpanded
+  isExpanded,
 }: {
   reasonForAdmission: string;
   isExpanded?: boolean;
 }) {
   return (
-    <TableRow style={getRamdomBackgroundColor()}>
+    <TableRow 
+    // style={getRamdomBackgroundColor()}
+    >
       <TableCell colSpan={11} padding="none" align="left">
         <Collapse in={isExpanded}>
           <Stack
@@ -66,22 +71,19 @@ export function RowExtraInfo({
       </TableCell>
     </TableRow>
   );
-};
+}
 
-
-export const SelectRowCheckBox = withContextSelectRowCheckBox(
-  ({ selected, onClick, invoiceId }: any) => {
-    return (
-      <Checkbox
-        style={getRamdomBackgroundColor()}
-        color="primary"
-        className="row_checkbox"
-        checked={selected}
-        onClick={() => onClick(invoiceId)}
-        inputProps={{
-          "aria-labelledby": invoiceId,
-        }}
-      />
-    );
-  }
-);
+export function SelectRowCheckBox({ selected, onClick, invoiceId }: any) {
+  return (
+    <Checkbox
+      // style={getRamdomBackgroundColor()}
+      color="primary"
+      className="row_checkbox"
+      checked={selected}
+      onClick={() => onClick(invoiceId)}
+      inputProps={{
+        "aria-labelledby": invoiceId,
+      }}
+    />
+  );
+}

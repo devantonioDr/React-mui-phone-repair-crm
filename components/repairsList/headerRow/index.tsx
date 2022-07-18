@@ -2,39 +2,10 @@ import Checkbox from "@mui/material/Checkbox";
 import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import { memo, useContext } from "react";
 import { getRamdomBackgroundColor } from "../../../helper/getRamdomColor";
-import { RepairListContext } from "../context";
-import { RowSelectContext } from "../context/RowSelectContext";
+import { withContextSelectAllCheckbox } from "../context/RowSelectContext";
 
-// Wrapper for both  RowSelectContext, RepairListContext dependent element.
-const selectAllCheckBoxWithState = (Checkbox: any) => {
-  const PureCheckBox = memo(Checkbox);
-
-  return (props: any) => {
-    const rowSelectionContext = useContext(RowSelectContext);
-    const repairList = useContext(RepairListContext);
-    const selectedCount = rowSelectionContext.selectedRows.length;
-    const rowsCount = repairList.repairs.length;
-
-    const areRowsPartiallySelected =
-      selectedCount > 0 && selectedCount < rowsCount;
-    const areAllRowsSelected = rowsCount > 0 && rowsCount == selectedCount;
-
-    return (
-      <PureCheckBox
-        {...props}
-        indeterminate={areRowsPartiallySelected}
-        checked={areAllRowsSelected}
-        onChange={(e: any) => {
-          rowSelectionContext.handleSelectAll(e);
-        }}
-      />
-    );
-  };
-};
-
-const SelectAllCheckBox = ({
+export const SelectAllCheckBox = ({
   indeterminate,
   checked,
   onChange,
@@ -55,7 +26,7 @@ const SelectAllCheckBox = ({
 };
 
 const SelectAllCheckBoxWithContext =
-  selectAllCheckBoxWithState(SelectAllCheckBox);
+  withContextSelectAllCheckbox(SelectAllCheckBox);
 
 export function RepairsTableHeader({ mode }: any) {
   let lables = [
@@ -80,7 +51,7 @@ export function RepairsTableHeader({ mode }: any) {
         {mode == "normal" &&
           lables.map((headCell) => (
             <TableCell
-              style={getRamdomBackgroundColor()}
+              // style={getRamdomBackgroundColor()}
               key={headCell}
               align={"left"}
               padding={"normal"}

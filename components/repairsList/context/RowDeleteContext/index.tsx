@@ -1,55 +1,71 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, memo, useCallback, useContext, useState } from "react";
 import { RepairListContext } from "..";
 import { RepairChangeStatusDialog } from "../../changeStatusDialog";
 import { DeleteDialog } from "../../deleteDialog";
 import { useToggleDialog } from "../../hooks/useChangeStatusDialog";
 
-
-type RowDeleteContextProviderProps = {
+type RowDeleteDialogContextProviderProps = {
   rowData: RepairData;
   children?: any;
 };
 
-type RowDeleteContextValue = {
-  expanded: boolean;
-  setExpanded: any;
-  changeStateDialog: {
-    open: boolean;
-    handleClickOpen: () => void;
-    handleClose: () => void;
-  };
+type RowDeleteDialogContextValue = {
+  toggleDialog:Function
 };
 
-export const RowDeleteContext =
-  createContext<RowDeleteContextValue>(
-    {} as RowDeleteContextValue
+export const RowDeleteDialogContext =
+  createContext<RowDeleteDialogContextValue>(
+    {} as RowDeleteDialogContextValue
   );
 
-export function RowDeleteContextProvider({
+export function RowDeleteDialogContextProvider({
   children,
   rowData,
-}: RowDeleteContextProviderProps) {
+}: RowDeleteDialogContextProviderProps) {
   const tableContext = useContext(RepairListContext);
-  const [expanded, setExpanded] = useState<boolean>(false);
-  const changeStateDialog = useToggleDialog();
-  const conTextValue = {
-    expanded,
-    setExpanded,
-    changeStateDialog,
-  };
+  const [open, setOpen] = useState<boolean>(false);
+ 
 
+  const toggleDialog = useCallback(() => {
+    setOpen(open => !open);
+  },[]);
+
+  const conTextValue = {
+    toggleDialog,
+  };
   return (
-    <RowDeleteContext.Provider value={conTextValue}>
+    <RowDeleteDialogContext.Provider value={conTextValue}>
       {/* Change state dialog */}
       <DeleteDialog
-        open={changeStateDialog.open}
+        open={open}
         repairId={rowData._id}
         selectedValue={rowData.status.key}
-        onClose={changeStateDialog.handleClose}
+        onClose={toggleDialog}
         notifySave={tableContext.fetchNewRepairs}
       />
 
       {children}
-    </RowDeleteContext.Provider>
+    </RowDeleteDialogContext.Provider>
   );
 }
+
+
+// Comsumers
+// This consumer only cares about the toggleDialog Function.
+
+export function withContextDeleteDialogToggle<P extends object>(
+  Component: React.ComponentType<P>
+) {
+  const PureComponent: any = memo(Component);
+
+  return (props: P) => {
+    const state = useContext(RowDeleteDialogContext);
+   
+    return (
+      <PureComponent
+        {...props}
+        handleClickOpen={state.toggleDialog}
+      />
+    );
+  };
+};

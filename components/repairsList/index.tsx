@@ -1,22 +1,17 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
-import DeleteIcon from "@mui/icons-material/Delete";
-import Button from "@mui/material/Button";
-import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 import ContainerType1 from "../containerType1";
 import { RepairsTableHeader } from "./headerRow";
 import { RepairsTableRow } from "./TableRow";
 import useRepairListResponsiveRow from "./hooks/useResponsiveRow";
 import { RepairListContext } from "./context";
 import { withContextSelectRowHeader } from "./context/RowSelectContext";
-
 import { TableToolbar } from "./TableToolbar";
 
 
-// Connect contexts.
+// Connect Select row context with tableToolbar to update selected rows state.
 const RepairsTableOptionsForSelectedWithContext =
   withContextSelectRowHeader(TableToolbar);
 
@@ -36,7 +31,6 @@ export default function RepairsTable() {
           <RepairsTableHeader mode={mode} />
           <TableBody>
             {repairListContext.repairs
-              .slice(0, 3)
               .map((data: RepairData, index: number) => {
                 return (
                   <RepairsTableRow

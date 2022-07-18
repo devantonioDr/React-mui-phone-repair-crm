@@ -4,6 +4,7 @@ import { RepairListContext } from "..";
 import { InmutableArrayMethods } from "../../../../helper/inmutableArrayMethods";
 
 export type RowSelectContextValue = {
+  totalRowsCount:number,
   selectedCount: number;
   selectedRows: any;
   handleSelectAll: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -93,6 +94,7 @@ export function RowSelectContextProvider(props: any) {
   const selectedCount = selectedRows.length;
 
   const conTextValue: RowSelectContextValue = {
+    totalRowsCount:tableContext.repairs.length,
     selectedCount,
     selectedRows,
     handleSelectAll,
@@ -107,9 +109,40 @@ export function RowSelectContextProvider(props: any) {
 }
 
 // Consumer Wrappers.
-// Here i specify the types of cosumers of this RowSelectContext.
+// Here i specifyed the types of cosumers of this RowSelectContext.
 
-// This one cares about the invoidId the check toggle function and and if row is selected.
+
+// This one cares about the handleSelectAll function,
+// the total rows count, 
+// if rows are partially selected 
+// if all rows are selected.
+
+export function withContextSelectAllCheckbox<P extends object>  (Component: React.ComponentType<P>) {
+  const PureComponent:any = memo(Component);
+
+  return (props: { indeterminate:boolean, checked:boolean, onChange:Function } & P ) => {
+    const rowSelectionContext = useContext(RowSelectContext);
+    const selectedCount = rowSelectionContext.selectedRows.length;
+    const rowsCount = rowSelectionContext.totalRowsCount;
+
+    const areRowsPartiallySelected =
+      selectedCount > 0 && selectedCount < rowsCount;
+    const areAllRowsSelected = rowsCount > 0 && rowsCount == selectedCount;
+
+    return (
+      <PureComponent
+        {...props}
+        indeterminate={areRowsPartiallySelected}
+        checked={areAllRowsSelected}
+        onChange={(e: any) => {
+          rowSelectionContext.handleSelectAll(e);
+        }}
+      />
+    );
+  };
+};
+
+// This one cares about the invoicedId, the check toggle function  and if row is selected.
 export function withContextSelectRowCheckBox<P extends object>(
   Component: React.ComponentType<P>
 ) {
@@ -138,12 +171,13 @@ export function withContextSelectRowCheckBox<P extends object>(
 };
 
 // This one cares whether or not the current row is selected.
+// it also needs.
 export function withContextSelectRowTableRow<P extends object>(
   Component: React.ComponentType<P>
 ) {
   const PureComponent: any = memo(Component);
 
-  return (props: P & { invoiceId: string }) => {
+  return (props: P & { invoiceId: string,children:any }) => {
     const rowSelectContext = useContext(RowSelectContext);
     // Check if the current invoice id is present in the list of selected rows.
     // selected = true if present.
@@ -155,15 +189,14 @@ export function withContextSelectRowTableRow<P extends object>(
     );
 
     return (
-      <PureComponent
-        {...props}
-        selected={selected}
-      />
+      <PureComponent selected={selected}>
+        {props.children}
+      </PureComponent>
     );
   };
 };
 
-// This one cares about the checked elements count.
+// This one cares about the checked elements count only.
 export function withContextSelectRowHeader<P extends object>(
   Component: React.ComponentType<P>
 ) {

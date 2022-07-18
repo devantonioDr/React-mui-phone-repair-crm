@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, memo, useCallback, useContext, useState } from "react";
 import { RepairListContext } from "..";
 import { RepairChangeStatusDialog } from "../../changeStatusDialog";
 import { useToggleDialog } from "../../hooks/useChangeStatusDialog";
@@ -10,13 +10,7 @@ type RowChangeStatusDialogContextProviderProps = {
 };
 
 type RowChangeStatusDialogContextValue = {
-  expanded: boolean;
-  setExpanded: any;
-  changeStateDialog: {
-    open: boolean;
-    handleClickOpen: () => void;
-    handleClose: () => void;
-  };
+  toggleDialog:Function
 };
 
 export const RowChangeStatusDialogContext =
@@ -29,22 +23,24 @@ export function RowChangeStatusDialogContextProvider({
   rowData,
 }: RowChangeStatusDialogContextProviderProps) {
   const tableContext = useContext(RepairListContext);
-  const [expanded, setExpanded] = useState<boolean>(false);
-  const changeStateDialog = useToggleDialog();
-  const conTextValue = {
-    expanded,
-    setExpanded,
-    changeStateDialog,
-  };
+  const [open, setOpen] = useState<boolean>(false);
+ 
 
+  const toggleDialog = useCallback(() => {
+    setOpen(open => !open);
+  },[]);
+
+  const conTextValue = {
+    toggleDialog,
+  };
   return (
     <RowChangeStatusDialogContext.Provider value={conTextValue}>
       {/* Change state dialog */}
       <RepairChangeStatusDialog
-        open={changeStateDialog.open}
+        open={open}
         repairId={rowData._id}
         selectedValue={rowData.status.key}
-        onClose={changeStateDialog.handleClose}
+        onClose={toggleDialog}
         notifySave={tableContext.fetchNewRepairs}
       />
 
@@ -52,3 +48,24 @@ export function RowChangeStatusDialogContextProvider({
     </RowChangeStatusDialogContext.Provider>
   );
 }
+
+
+// Comsumers
+// This consumer only cares about the toggleDialog Function.
+
+export function withContextRowChangeStatusDialogToggle<P extends object>(
+  Component: React.ComponentType<P>
+) {
+  const PureComponent: any = memo(Component);
+
+  return (props: P) => {
+    const state = useContext(RowChangeStatusDialogContext);
+   
+    return (
+      <PureComponent
+        {...props}
+        handleClickOpen={state.toggleDialog}
+      />
+    );
+  };
+};
