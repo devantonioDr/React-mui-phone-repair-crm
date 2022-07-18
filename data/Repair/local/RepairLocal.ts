@@ -1,14 +1,13 @@
 import { MultiSelectUnstyled } from "@mui/base";
-import { RepairData } from "../../types/Template";
-import { RepairFakeData } from "./RepairFakeData";
-import RepairInterface from "./RepairMethodsInterface";
+import { RepairFakeData } from "../mockedData/RepairData";
+import RepairInterface from "../interfaces/Repair";
 
 class RepairLocal implements RepairInterface {
   repairs: RepairData[];
   constructor() {
+    console.log("RepairLocal instanciated.");
     this.repairs = RepairFakeData;
   }
-
   all() {
     return this.repairs;
   }
@@ -33,20 +32,21 @@ class RepairLocal implements RepairInterface {
   }
   updateRepair(newData: RepairData) {
     // Find the correct item in the data storage by the id.
-    const index = this.repairs.findIndex((data: RepairData) => newData._id == data._id);
+    const index = this.repairs.findIndex(
+      (data: RepairData) => newData._id == data._id
+    );
     if (index > -1) {
       this.repairs[index] = newData;
       return this.repairs[index];
-    };
+    }
     return null;
   }
   getSingleRepair(_id: any) {
-    
     // Find the correct item in the data storage by the id.
     const index = this.repairs.findIndex((data: RepairData) => _id == data._id);
     if (index > -1) {
-      return this.repairs[index]
-    };
+      return this.repairs[index];
+    }
     return null;
   }
 }

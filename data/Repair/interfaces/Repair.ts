@@ -1,4 +1,3 @@
-import { RepairData } from "../../types/Template";
 
 export default class RepairInterface{
     

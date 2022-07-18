@@ -1,11 +1,11 @@
 import { makeAbsoluteCopy } from "../../../helper/makeAbsoluteCopy";
-import RepairLocal from "../RepairLocal";
+import RepairLocal from "../local/RepairLocal";
 
 describe.only("Testing the RepairLocalMethods ", () => {
 
     it("Get all repairs", () => {
         let repairs = RepairLocal.all();
-        expect(repairs.length).toBe(20);
+        expect(repairs.length).toBe(38);
     });
 
     it("Delete a single repair", () => {

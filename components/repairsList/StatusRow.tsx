@@ -1,4 +1,3 @@
-import Button from "@mui/material/Button"
 import Chip from "@mui/material/Chip"
 // Status
 /**
@@ -9,17 +8,18 @@ import Chip from "@mui/material/Chip"
  */
 
 
-export function StatusRow({ status }: { status: 300 | 400 | 500 | 600 }) {
-    const commonStyles = { fontSize: '10px' }
+export function StatusRow({ status }: { status: number }) {
     switch (status) {
-        case 300:
+        case 100:
             return (<Chip label="Pendiente" color="error" />)
-        case 400:
+        case 200:
             return (<Chip label="En proceso" color="warning" />)
-        case 500:
+        case 300:
             return (<Chip label="Terminada" color="success" />)
-        case 600:
-            return (<Chip label="En sucursal" color="primary" />)
+        case 310:
+            return (<Chip label="En sucursal" color="secondary" />)
+        case 400:
+            return (<Chip label="Entregada al cliente" color="primary" />)
         default:
             return <Chip label={status} color="primary" />
     }

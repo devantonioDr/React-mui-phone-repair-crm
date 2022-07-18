@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import EnhancedTable from "../components/repairsList";
+import ChangeStatusDialog from "../components/repairsList/changeStatusDialog";
+import DeleteRepairDialog from "../components/repairsList/deleteDialog";
 // import SearchFilters from '../components/forms/searchFilters';
 
 import styles from "../styles/Home.module.css";
@@ -14,7 +15,8 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {/* <InsertRepair /> */}
-      <EnhancedTable />
+      <ChangeStatusDialog />
+      <DeleteRepairDialog />
     </div>
   );
 };
