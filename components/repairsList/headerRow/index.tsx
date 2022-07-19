@@ -1,3 +1,4 @@
+import { Typography } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
@@ -32,7 +33,7 @@ export function RepairsTableHeader({ mode }: any) {
   let lables = [
     "",
     "Folio",
-    "IMEI",
+    // "IMEI",
     "Fecha de ingreso",
     "Marca",
     "Modelo",
@@ -56,7 +57,7 @@ export function RepairsTableHeader({ mode }: any) {
               align={"left"}
               padding={"normal"}
             >
-              <strong>{headCell}</strong>
+              <Typography variant="subtitle2">{headCell}</Typography>
             </TableCell>
           ))}
       </TableRow>

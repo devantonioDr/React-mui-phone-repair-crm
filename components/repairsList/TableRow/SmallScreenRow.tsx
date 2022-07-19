@@ -8,7 +8,7 @@ import { withContextSelectRowCheckBox } from "../context/RowSelectContext";
 import { withContextShowMore } from "../context/RowShowMoreContext";
 import { StatusRow } from "../StatusRow";
 import TableRowActions from "./actionsUi";
-import { InfoIdButton, SelectRowCheckBox, ShowMoreButton } from "./commonUi";
+import { InfoIdButton, SelectRowCheckBox, ShowDate, ShowMoreButton } from "./commonUi";
 
 // Assign context for SelectRowCheckBox actions
 const SelectRowCheckBoxWithContext =
@@ -53,7 +53,7 @@ export const SmallScreenRowContent = ({ data }: { data: RepairData }) => {
           />
           <SmallScreenRowCell title="IMEI:" value={""} />
 
-          <SmallScreenRowCell title="Fecha de ingreso:" value={admissionDate} />
+          <SmallScreenRowCell title="Fecha de ingreso:" value={<ShowDate admissionDate={admissionDate} />} />
 
           <SmallScreenRowCell title="Marca:" value={device.trademark} />
 

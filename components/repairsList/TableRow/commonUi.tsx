@@ -7,12 +7,18 @@ import Stack from "@mui/material/Stack";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
+import moment from "moment";
 import { getRamdomBackgroundColor } from "../../../helper/getRamdomColor";
 
 export function InfoIdButton({ invoiceId }: { invoiceId: string }) {
   return (
     <Chip clickable={true} label={invoiceId} variant="filled" color="primary" />
   );
+};
+
+export function ShowDate({ admissionDate }: { admissionDate: string }) {
+  let date = moment(admissionDate).format("DD/MM/YYYY");
+  return <Typography variant="subtitle1" >{date}</Typography>;
 };
 
 export function ShowMoreButton({
@@ -39,7 +45,7 @@ export function ShowMoreButton({
       </Button>
     </Box>
   );
-}
+};
 
 export function RowExtraInfo({
   reasonForAdmission,
@@ -49,7 +55,7 @@ export function RowExtraInfo({
   isExpanded?: boolean;
 }) {
   return (
-    <TableRow 
+    <TableRow
     // style={getRamdomBackgroundColor()}
     >
       <TableCell colSpan={11} padding="none" align="left">
@@ -71,7 +77,7 @@ export function RowExtraInfo({
       </TableCell>
     </TableRow>
   );
-}
+};
 
 export function SelectRowCheckBox({ selected, onClick, invoiceId }: any) {
   return (
@@ -86,4 +92,4 @@ export function SelectRowCheckBox({ selected, onClick, invoiceId }: any) {
       }}
     />
   );
-}
+};
