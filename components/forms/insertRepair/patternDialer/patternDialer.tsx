@@ -26,12 +26,12 @@ const PatternVertex = (props: { value: string; onClick: any; data: any }) => {
 export default function PatterDialer(props: { valueNotifier: any }) {
   const dialerState = usePatternDialerState();
 
-  const debouncedValue = useDebounce(dialerState.values.value, 1000);
+  // const debouncedValue = useDebounce(dialerState.values.value, 1000);
 
   useEffect(() => {
-    console.log({PatterDialer:{debouncedValue}})
-    props.valueNotifier(debouncedValue);
-  }, [debouncedValue])
+    // console.log({PatterDialer:{debouncedValue}})
+    props.valueNotifier(dialerState.values.value);
+  }, [dialerState.values.value])
 
 
 

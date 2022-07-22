@@ -1,7 +1,7 @@
 import Grid from "@mui/material/Grid";
 import type { NextPage } from "next";
 import Head from "next/head";
-import SearchFilters from "../components/forms/searchFilters";
+import SearchFilters from "../components/repairSearchFilters";
 import RepairsTable from "../components/repairsList";
 
 import { useTheme } from "@mui/material/styles";
@@ -9,7 +9,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import RepairsListTopOptions from "../components/repairsListTopOptions";
 import MainLayout from "../components/layouts/mainLayout";
 import { RepairListContextProvider } from "../components/repairsList/context";
-
+import { InsertRepairContextProvider } from "../context/InsertRepairContextProvider";
 
 const responsibeGrid = {
   stacked: [
@@ -38,18 +38,20 @@ const Repairs: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <MainLayout title={title}>
-        <RepairListContextProvider>
-          <RepairsListTopOptions />
+        <InsertRepairContextProvider>
+          <RepairListContextProvider>
+            <RepairsListTopOptions />
 
-          <Grid container spacing={2}>
-            <Grid item xs={mode[0][0]}>
-              <SearchFilters />
+            <Grid container spacing={2}>
+              <Grid item xs={mode[0][0]}>
+                <SearchFilters />
+              </Grid>
+              <Grid item xs={mode[1][0]}>
+                <RepairsTable />
+              </Grid>
             </Grid>
-            <Grid item xs={mode[1][0]}>
-              <RepairsTable />
-            </Grid>
-          </Grid>
-        </RepairListContextProvider>
+          </RepairListContextProvider>
+        </InsertRepairContextProvider>
       </MainLayout>
     </>
   );

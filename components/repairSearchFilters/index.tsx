@@ -23,7 +23,7 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { filtersMetaData } from "./filtersMetaData";
 
 // Hooks
-import { useFormState } from "../renderFormType1/hooks/useFormState";
+import { useFormState } from "../forms/renderFormType1/hooks/useFormState";
 
 // Icons
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
@@ -33,9 +33,9 @@ import StoreIcon from "@mui/icons-material/Store";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 import ClearIcon from "@mui/icons-material/Clear";
 import PersonIcon from "@mui/icons-material/Person";
-import { getRamdomBackgroundColor } from "../../../helper/getRamdomColor";
-import { INPUT_DEBUG_MODE } from "../../../react_testing_variables";
-import ContainerType1 from "../../containerType1";
+import { getRamdomBackgroundColor } from "../../helper/getRamdomColor";
+import { INPUT_DEBUG_MODE } from "../../react_testing_variables";
+import ContainerType1 from "../containerType1";
 
 import { useFilterResponsiveTemplate } from "./hooks/useFilterResponsiveTemplate";
 

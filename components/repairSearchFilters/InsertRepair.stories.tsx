@@ -1,7 +1,7 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import React from "react";
 
-import SearchFilters from "./";
+import SearchFilters from ".";
 
 
 export default {
