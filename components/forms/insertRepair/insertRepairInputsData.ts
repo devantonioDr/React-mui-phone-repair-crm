@@ -61,15 +61,7 @@ export const clientDataForm: useFormStateInitialState = [
         },
     },
 ];
-console.log(clientDataForm.map((v)=>`
-<Grid item sm={6} xs={12}>
-<FormInput 
-label="${v.inputProps.label}"
-name="${v.inputProps.id}" 
-validators={[notEmptyValidator, onlyLetters]} 
-validateAsTyping={true}
-/>
-</Grid>`).join('\n'));
+
 
 export const costDataForm: useFormStateInitialState = [
     {
@@ -137,7 +129,15 @@ export const costDataForm: useFormStateInitialState = [
         },
     }
 ];
-
+console.log(costDataForm.map((v)=>`
+<Grid item sm={6} xs={12}>
+<FormInput 
+label="${v.inputProps.label}"
+name="${v.inputProps.id}" 
+validators={[notEmptyValidator, onlyLetters]} 
+validateAsTyping={true}
+/>
+</Grid>`).join('\n'));
 
 export const repairDataForm: useFormStateInitialState = [
     {

@@ -20,6 +20,7 @@ import { useToggleDialog } from "../../../hooks/useToggleDialog";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
 import {  useStepperState } from "../../../hooks/useStepperState";
+import Step3 from "./Step3";
 
 interface InsertRepairProps {
   stepperHook: ReturnType<typeof useStepperState>;
@@ -56,7 +57,7 @@ export const InsertRepair = ({stepperHook,dialogHook}: InsertRepairProps) => {
                         case 1:
                           return <Step2 />;
                         case 2:
-                          return <FormType1 initialState={costDataForm} />;
+                          return <Step3 />;
                         default:
                           return null;
                       }

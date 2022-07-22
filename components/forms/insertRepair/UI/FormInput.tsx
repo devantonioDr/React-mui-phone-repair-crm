@@ -114,7 +114,7 @@ export const FormInputSelect = withContextEfficientFormInput(
         sx={{ width: "100%" }}
         fullWidth={true}
       >
-        {/* <InputLabel id={id}>{props.label}</InputLabel> */}
+        <InputLabel id={id}>{props.label}</InputLabel>
 
         <Select
           value={props.value || ""}
