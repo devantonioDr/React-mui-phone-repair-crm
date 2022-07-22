@@ -10,16 +10,13 @@ import StepContent from "@mui/material/StepContent";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 
 // Hooks
 
-import FormType1 from "../renderFormType1/FormType1";
-import { costDataForm,} from "./insertRepairInputsData";
 import { useToggleDialog } from "../../../hooks/useToggleDialog";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
-import {  useStepperState } from "../../../hooks/useStepperState";
+import { useStepperState } from "../../../hooks/useStepperState";
 import Step3 from "./Step3";
 
 interface InsertRepairProps {
@@ -27,9 +24,11 @@ interface InsertRepairProps {
   dialogHook: ReturnType<typeof useToggleDialog>;
 }
 
-
-export const InsertRepair = ({stepperHook,dialogHook}: InsertRepairProps) => {
-  console.log(dialogHook)
+export const InsertRepair = ({
+  stepperHook,
+  dialogHook,
+}: InsertRepairProps) => {
+  console.log(dialogHook);
   return (
     <>
       <Button variant="contained" onClick={dialogHook.toggle}>

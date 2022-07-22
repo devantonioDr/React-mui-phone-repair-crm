@@ -2,7 +2,6 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import { memo, useContext } from "react";
-import { getRamdomBackgroundColor } from "../../../../helper/getRamdomColor";
 import { EfficientFormContext } from "../../../../context/EfficientFormContextProvider";
 import { InsertRepairContext } from "../../../../context/InsertRepairContextProvider";
 

@@ -27,7 +27,7 @@ describe("Make sure all of the usePatternDialerStateHelper methods work fine", (
         expect(UsePatternDialerStateHelper.isDirectConnection(currentValue, currentIndex)).toBe(false);
 
     })
-})
+});
 
 
 export { }
