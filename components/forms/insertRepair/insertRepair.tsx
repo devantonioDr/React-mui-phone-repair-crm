@@ -31,9 +31,6 @@ export const InsertRepair = ({
   console.log(dialogHook);
   return (
     <>
-      <Button variant="contained" onClick={dialogHook.toggle}>
-        Agregar reparación
-      </Button>
       <Dialog
         maxWidth="md"
         fullScreen={dialogHook.fullScreen}

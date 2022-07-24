@@ -174,7 +174,7 @@ function Step1(props: { notifyChange?: (formData: EfficientFormState, haveErrors
                                 {lockMethodType == "50" && (
                                     <Grid item xs={12}>
                                         <FormInputUnlockPattern
-                                            label=""
+                                            label="Insertar patron"
                                             name="device_lock_pattern"
                                             validators={[notEmptyValidator]}
                                         />

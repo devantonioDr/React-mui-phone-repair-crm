@@ -85,7 +85,7 @@ export const FormInputUnlockPattern = withContextEfficientFormInput(
   }) => {
     return (
       <>
-        <FormHelperText>{props.errors}</FormHelperText>
+        <FormHelperText  error>{props.errors}</FormHelperText>
         <PatterDialer
           valueNotifier={(value: string) => {
             props.onChange({ target: { value } });

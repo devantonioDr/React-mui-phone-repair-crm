@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import Fab from "@mui/material/Fab";
 import { makeAbsoluteCopy } from "../../../../helper/makeAbsoluteCopy";
@@ -9,19 +9,38 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import useDebounce from "../../../../helper/useDebounce";
+import { getRamdomBackgroundColor } from "../../../../helper/getRamdomColor";
 
-const PatternVertex = (props: { value: string; onClick: any; data: any }) => {
-  const color = props.data.clicked ? "primary" : "default";
+const PatternVertex = memo((props: { index: number; onClick: any; clicked: any }) => {
+  const color = props.clicked ? "primary" : "default";
 
   return (
-    <Grid onClick={props.onClick} container item xs={4}>
+    <Grid onClick={(e) => props.onClick(props.index)} container item xs={4}>
       <Fab size="small" color={color} aria-label="add">
-        {props.data.clicked && <span>{props.value}</span>}
+        {props.clicked && <span> {`${props.index + 1}`}</span>}
         {/* <span>{props.value}</span> */}
       </Fab>
     </Grid>
   );
-};
+}
+// , (prevProps, nextProps) => {
+//   console.log("Vertex: ", prevProps.onClick != nextProps.onClick)
+//   if (prevProps.clicked != nextProps.clicked) return false;
+//   return true
+// }
+
+);
+
+
+const TryAgainButton = memo((props: { onClick: () => void }) => {
+  return <Button
+
+    variant="outlined"
+    onClick={props.onClick}
+  >
+    Volver a empezar
+  </Button>
+});
 
 export default function PatterDialer(props: { valueNotifier: any }) {
   const dialerState = usePatternDialerState();
@@ -53,12 +72,7 @@ export default function PatterDialer(props: { valueNotifier: any }) {
 
         if (value != "")
           return (
-            <Button
-              variant="outlined"
-              onClick={dialerState.actions.resetPattern}
-            >
-              Volver a empezar
-            </Button>
+            <TryAgainButton onClick={dialerState.actions.resetPattern} />
           );
       })(dialerState.values.value)}
 
@@ -69,9 +83,9 @@ export default function PatterDialer(props: { valueNotifier: any }) {
               return (
                 <PatternVertex
                   key={`${index}_device_pattern`}
-                  value={`${index + 1}`}
-                  data={item}
-                  onClick={(e: any) => dialerState.actions.handleOnclick(index)}
+                  index={index}
+                  clicked={item.clicked}
+                  onClick={dialerState.actions.handleOnclick}
                 />
               );
             })}

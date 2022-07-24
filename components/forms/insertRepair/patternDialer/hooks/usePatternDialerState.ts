@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { makeAbsoluteCopy } from "../../../../../helper/makeAbsoluteCopy";
 import { UsePatternDialerStateHelper } from "./usePatternDialerStateHelper";
 
@@ -11,31 +11,51 @@ export const usePatternDialerState = () => {
 
     console.log(value);
 
+    const resetPattern = useCallback(() => {
+        setValue("");
+        setClicks(usePatternDialerStateClicks);
+    }, []);
+    const handleOnclick = useCallback((index: number) => {
+        setValue((value: string) => {
+            // Check if previous click item is a direct connection of the previous clicked.
+            const hasDirectConnection = UsePatternDialerStateHelper.isDirectConnection(value, index);
+            if (!hasDirectConnection) return value;
+
+            // set clicked:true at the index provided.
+            setClicks(clicks => [
+                ...clicks.slice(0, index),
+                { ...clicks[index], clicked: true },
+                ...clicks.slice(index + 1)
+            ]
+            );
+
+            return value + `${index + 1}`;
+        });
+    }, []);
+
     return {
         values: {
             value,
             clicks
         },
         actions: {
-            resetPattern:()=>{
-                setValue("");
-                setClicks(usePatternDialerStateClicks);
-            },
-            handleOnclick: (index: number) => {
-                // if (clicks[index].clicked == false) {
-                    const hasDirectConnection = UsePatternDialerStateHelper.isDirectConnection(value, index);
-                    if(hasDirectConnection){
-                        const newState = makeAbsoluteCopy(clicks);
-                        const current = newState[index];
-                        current.clicked = true;
-                        setValue(value + `${index + 1}`)
-                        setClicks(newState);
-                    }else{
-                        console.log("No tiene una connecion directa.")
-                    }
-                    
-                // };
-            }
+            resetPattern,
+            handleOnclick
+            // handleOnclick: (index: number) => {
+            //     // if (clicks[index].clicked == false) {
+            //     const hasDirectConnection = UsePatternDialerStateHelper.isDirectConnection(value, index);
+            //     if (hasDirectConnection) {
+            //         // const newState = makeAbsoluteCopy(clicks);
+            //         // const current = newState[index];
+            //         // current.clicked = true;
+            //         setValue(value => value + `${index + 1}`)
+            //         setClicks([]);
+            //     } else {
+            //         console.log("No tiene una connecion directa.")
+            //     }
+
+            //     // };
+            // }
         }
     }
 }

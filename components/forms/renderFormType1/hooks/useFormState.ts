@@ -95,6 +95,7 @@ export const useFormState = (initialState: useFormStateInitialState) => {
         setTextFieldState(newState);
 
     };
+    
     const handleClearValue = (index: number) => {
         // makes a copy of the state value Important.
         const newState = makeAbsoluteCopy(textFieldsState);

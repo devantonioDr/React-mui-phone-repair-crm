@@ -2,6 +2,7 @@ import Box from '@mui/material/Box'
 import Pagination from '@mui/material/Pagination'
 import Toolbar from '@mui/material/Toolbar'
 import React from 'react'
+import { InsertRepairButton } from '../forms/insertRepair/UI/InsertRepairButton'
 
 export default function RepairsListTopOptions() {
     return (
@@ -16,7 +17,9 @@ export default function RepairsListTopOptions() {
                     onChange={(event: any, value: any) => console.log(event, value)}
                 />
             </div>
-            {/* <div>Box2</div> */}
+            <div>
+                <InsertRepairButton />
+            </div>
         </Box>
     )
 }
