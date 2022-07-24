@@ -7,39 +7,29 @@ import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
-import useDebounce from "../../../../helper/useDebounce";
-import { getRamdomBackgroundColor } from "../../../../helper/getRamdomColor";
 
-const PatternVertex = memo((props: { index: number; onClick: any; clicked: any }) => {
-  const color = props.clicked ? "primary" : "default";
 
-  return (
-    <Grid onClick={(e) => props.onClick(props.index)} container item xs={4}>
-      <Fab size="small" color={color} aria-label="add">
-        {props.clicked && <span> {`${props.index + 1}`}</span>}
-        {/* <span>{props.value}</span> */}
-      </Fab>
-    </Grid>
-  );
-}
-// , (prevProps, nextProps) => {
-//   console.log("Vertex: ", prevProps.onClick != nextProps.onClick)
-//   if (prevProps.clicked != nextProps.clicked) return false;
-//   return true
-// }
+const PatternVertex = memo(
+  (props: { index: number; onClick: any; clicked: any }) => {
+    const color = props.clicked ? "primary" : "default";
 
+    return (
+      <Grid onClick={(e) => props.onClick(props.index)} container item xs={4}>
+        <Fab size="small" color={color} aria-label="add">
+          {props.clicked && <span> {`${props.index + 1}`}</span>}
+          {/* <span>{props.value}</span> */}
+        </Fab>
+      </Grid>
+    );
+  }
 );
 
-
 const TryAgainButton = memo((props: { onClick: () => void }) => {
-  return <Button
-
-    variant="outlined"
-    onClick={props.onClick}
-  >
-    Volver a empezar
-  </Button>
+  return (
+    <Button variant="outlined" onClick={props.onClick}>
+      Volver a empezar
+    </Button>
+  );
 });
 
 export default function PatterDialer(props: { valueNotifier: any }) {
@@ -50,9 +40,7 @@ export default function PatterDialer(props: { valueNotifier: any }) {
   useEffect(() => {
     // console.log({PatterDialer:{debouncedValue}})
     props.valueNotifier(dialerState.values.value);
-  }, [dialerState.values.value])
-
-
+  }, [dialerState.values.value]);
 
   return (
     <>
@@ -71,9 +59,7 @@ export default function PatterDialer(props: { valueNotifier: any }) {
           );
 
         if (value != "")
-          return (
-            <TryAgainButton onClick={dialerState.actions.resetPattern} />
-          );
+          return <TryAgainButton onClick={dialerState.actions.resetPattern} />;
       })(dialerState.values.value)}
 
       <Card sx={{ maxWidth: "250px", marginTop: "23px" }} variant="outlined">

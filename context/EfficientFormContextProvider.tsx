@@ -10,7 +10,7 @@ export type EfficientFormState = {
 type EfficientFormContextValue = {
     value: EfficientFormState;
     setValue: React.Dispatch<any>;
-    onSubmit: () => {haveErrors: boolean;};
+    onSubmit: () => { haveErrors: boolean; };
 };
 export type validatorType = (formData: EfficientFormState) => string[];
 
@@ -92,7 +92,7 @@ export function EfficientFormContextProvider(props: {
     };
 
     // Creates the context value.
-    const contextValue:EfficientFormContextValue = { value, setValue, onSubmit };
+    const contextValue: EfficientFormContextValue = { value, setValue, onSubmit };
 
     // Returns the context provider.
     return (
@@ -125,6 +125,7 @@ export const withContextEfficientFormInput = <T extends object>(
         validators?: validatorType[];
         validateAsTyping?: boolean;
         defaultValue?: string;
+        startAdornment?: JSX.Element;
     }) => {
         const { value, setValue } = useContext(EfficientFormContext);
 
@@ -255,7 +256,8 @@ export const withContextEfficientFormInput = <T extends object>(
         return (
             <PureWrapped
                 // To rmove react warning about uncontrol becoming controlled.
-                options={props.options || null}
+                startAdornment={props.startAdornment || null}
+                options={props.options || []}
                 name={inputName}
                 label={props.label}
                 value={value.data[inputName] || ""}
