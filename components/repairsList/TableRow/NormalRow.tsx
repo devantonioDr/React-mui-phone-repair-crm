@@ -21,7 +21,6 @@ export const NormalRowContent = ({ data }: { data: RepairData }) => {
   let { invoiceId, status, branchOffice, admissionDate, device, customer } =
     data;
 
-  console.log("NormalRowContent rerendered");
   return (
     <>
       <TableCell align="left">

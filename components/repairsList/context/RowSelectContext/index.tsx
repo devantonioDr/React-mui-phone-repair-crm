@@ -4,7 +4,7 @@ import { RepairListContext } from "..";
 import { InmutableArrayMethods } from "../../../../helper/inmutableArrayMethods";
 
 export type RowSelectContextValue = {
-  totalRowsCount:number,
+  totalRowsCount: number,
   selectedCount: number;
   selectedRows: any;
   handleSelectAll: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -18,51 +18,7 @@ export const RowSelectContext = createContext<RowSelectContextValue>(
 export function RowSelectContextProvider(props: any) {
   const tableContext = useContext(RepairListContext);
 
-  const [selectedRows, setSelectedRows] = useState<any>([]);
-
-  //  useCallback To avoid recreating the function on each rerender
-  const unSelectRow = useCallback(
-    (invoiceId: string, selectedRows: string[]) => {
-      const m = InmutableArrayMethods;
-      // Get index from selected rows list.
-      const selectedIndex = selectedRows.indexOf(invoiceId);
-      if (m.isItemNotInTheList(selectedIndex)) {
-        console.log("Item is not in the list.");
-        return;
-      }
-      // New state.
-      let newSelected: string[] = [];
-
-      if (m.isFirstItemInTheList(selectedIndex)) {
-        newSelected = m.removeFirstItemOfTheList(selectedRows);
-      } else if (m.isLastItemInTheList(selectedRows, selectedIndex)) {
-        newSelected = m.removeLastItemOfTheList(selectedRows);
-      } else if (m.isSomeWhereInTheList(selectedIndex)) {
-        newSelected = m.removeItemAtTheIndexPosition(
-          selectedRows,
-          selectedIndex
-        );
-      }
-      return newSelected;
-    },
-    []
-  );
-  //  useCallback To avoid recreating the function on each rerender
-  const selectRow = useCallback((invoiceId: string, selectedRows: string[]) => {
-    const m = InmutableArrayMethods;
-
-    const selectedIndex = selectedRows.indexOf(invoiceId);
-    if (m.isItemNotInTheList(selectedIndex) == false) {
-      console.log("Item is already on the list.");
-      return;
-    }
-    let newSelected: string[] = [];
-    if (m.isItemNotInTheList(selectedIndex)) {
-      newSelected = m.addValueToTheEndOfTheList(selectedRows, invoiceId);
-    }
-
-    return newSelected;
-  }, []);
+  const [selectedRows, setSelectedRows] = useState<string[]>([]);
 
   //   Recreate only if table context repairs changes.
   const handleSelectAll = useCallback(
@@ -82,11 +38,27 @@ export function RowSelectContextProvider(props: any) {
   //   refrence during the component lifecycle.
   const toggleSelectedRow = useCallback((invoiceId: string) => {
     setSelectedRows((selectedRows: string[]) => {
+
       const selectedIndex = selectedRows.indexOf(invoiceId);
-      if (InmutableArrayMethods.isItemNotInTheList(selectedIndex)) {
-        return selectRow(invoiceId, selectedRows);
-      }
-      return unSelectRow(invoiceId, selectedRows);
+      // If selectedIndex is in the array.
+      if (selectedIndex > 0) {
+        // Removes the value at given index.
+        return [
+          ...selectedRows.slice(0, selectedIndex),
+          ...selectedRows.slice(selectedIndex + 1)
+        ];
+      };
+      // Adds value
+      return [
+        ...selectedRows,
+        invoiceId
+      ];
+
+   
+      // if (InmutableArrayMethods.isItemNotInTheList(selectedIndex)) {
+      //   return selectRow(invoiceId, selectedRows);
+      // }
+      // return unSelectRow(invoiceId, selectedRows);
     });
   }, []);
 
@@ -94,7 +66,7 @@ export function RowSelectContextProvider(props: any) {
   const selectedCount = selectedRows.length;
 
   const conTextValue: RowSelectContextValue = {
-    totalRowsCount:tableContext.repairs.length,
+    totalRowsCount: tableContext.repairs.length,
     selectedCount,
     selectedRows,
     handleSelectAll,
@@ -117,10 +89,10 @@ export function RowSelectContextProvider(props: any) {
 // if rows are partially selected 
 // if all rows are selected.
 
-export function withContextSelectAllCheckbox<P extends object>  (Component: React.ComponentType<P>) {
-  const PureComponent:any = memo(Component);
+export function withContextSelectAllCheckbox<P extends object>(Component: React.ComponentType<P>) {
+  const PureComponent: any = memo(Component);
 
-  return (props: { indeterminate:boolean, checked:boolean, onChange:Function } & P ) => {
+  return (props: { indeterminate: boolean, checked: boolean, onChange: Function } & P) => {
     const rowSelectionContext = useContext(RowSelectContext);
     const selectedCount = rowSelectionContext.selectedRows.length;
     const rowsCount = rowSelectionContext.totalRowsCount;
@@ -177,7 +149,7 @@ export function withContextSelectRowTableRow<P extends object>(
 ) {
   const PureComponent: any = memo(Component);
 
-  return (props: P & { invoiceId: string,children:any }) => {
+  return (props: P & { invoiceId: string, children: any }) => {
     const rowSelectContext = useContext(RowSelectContext);
     // Check if the current invoice id is present in the list of selected rows.
     // selected = true if present.
@@ -202,9 +174,9 @@ export function withContextSelectRowHeader<P extends object>(
 ) {
   const PureComponent: any = memo(Component);
 
-  return (props: P ) => {
+  return (props: P) => {
     const rowSelectContext = useContext(RowSelectContext);
-   
+
     return (
       <PureComponent
         {...props}

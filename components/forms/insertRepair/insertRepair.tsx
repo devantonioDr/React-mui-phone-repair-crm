@@ -28,7 +28,15 @@ export const InsertRepair = ({
   stepperHook,
   dialogHook,
 }: InsertRepairProps) => {
-  console.log(dialogHook);
+  const onClose = () => {
+    // Close insert repair dialog.
+    dialogHook.toggle();
+    // Reset stepper to step 1;
+    stepperHook.stepperDispatch({
+      kind: "SET_STEP_INDEX",
+      payload: 0,
+    });
+  };
   return (
     <>
       <Dialog
@@ -65,7 +73,7 @@ export const InsertRepair = ({
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button onClick={dialogHook.toggle}> Cancelar </Button>
+          <Button onClick={onClose}>Cancelar </Button>
         </DialogActions>
       </Dialog>
     </>

@@ -1,3 +1,4 @@
+import { Stepper } from "@mui/material";
 import { useCallback, useReducer } from "react";
 
 export type stepsType = {
@@ -88,9 +89,10 @@ export const useStepperState = (
     const [{ activeStep, steps }, dispatch] = useReducer(stepperReducer, initialState);
 
 
+
     // Go to next step.
     const handleNext = useCallback(() => {
-     
+
         // Store the previous state.
         const prev = activeStep;
 
@@ -141,5 +143,6 @@ export const useStepperState = (
         handleNext,
         handleBack,
         setReadyToCurrentStep,
+        stepperDispatch: dispatch
     };
 };

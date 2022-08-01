@@ -4,51 +4,54 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
 import SaveIcon from "@mui/icons-material/Save";
 import { useToggleDialog } from "../hooks/useChangeStatusDialog";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { Typography } from "@mui/material";
+import Typography from "@mui/material/Typography";
+import Chip from "@mui/material/Chip";
 
 export interface RepairChangeStatusDialogProps {
   open: boolean;
   repairId: string;
-  selectedValue: number;
   onClose: () => void;
-  notifySave?: ({}: any) => void;
+  isloading: boolean;
+  notifySave?: ({ }: any) => void;
+  onDelete: () => void;
+  wasDeleted: boolean;
 }
 
-export function DeleteDialog(props: RepairChangeStatusDialogProps) {
-  const [selectedStatus, setSelectedStatus] = React.useState<any>(
-    props.selectedValue
-  );
-  const [statuses, setStatuses] = React.useState<RepairStatus[]>([]);
-  const [isloading, setIsloading] = React.useState<boolean>(false);
-
-  React.useEffect(() => {}, [props.open]);
-
-  const handleChange = (event: any) => {
-    setSelectedStatus(event.target.value);
-  };
-  const handleSave = () => {
-    setIsloading(true);
-    setTimeout(() => {
-      setIsloading(false);
-    }, 1000);
-    // fetch(`/api/repairs/${props.repairId}/status`, {
-    //   body: JSON.stringify({ status: selectedStatus }),
-    //   method: "PUT",
-    // })
-    //   .then((data) => data.json())
-    //   .then(async (e) => {
-    //     props.notifySave && (await props.notifySave(e));
-    //     setIsloading(false);
-    //     props.onClose();
-    //   });
-  };
-
+const DeletedButton = () => {
   return (
-    <Dialog  maxWidth="sm" onClose={() => {}} open={props.open}>
+    <Button color="success" variant="contained">
+      <DeleteIcon fontSize={"small"} sx={{ mr: 1 }} />
+      <span style={{ marginTop: "3px" }}>Borrado</span>
+    </Button>
+  );
+};
+
+const DeleteButton = (props: { isloading: boolean; onDelete: () => void }) => {
+  return (
+    <LoadingButton
+      color="error"
+      loading={props.isloading}
+      variant="contained"
+      onClick={props.onDelete}
+      autoFocus
+    >
+      <DeleteIcon fontSize={"small"} sx={{ mr: 1 }} />
+      <span style={{ marginTop: "3px" }}>SI, ELIMINAR</span>
+    </LoadingButton>
+  );
+};
+
+const CancelButton = (props: { onClose: () => void }) => {
+  return <Button onClick={() => props.onClose()}>NO, CANCELAR</Button>;
+};
+
+export function DeleteDialog(props: RepairChangeStatusDialogProps) {
+  return (
+    <Dialog maxWidth="sm" onClose={() => { }} open={props.open}>
       <DialogTitle>¿Está seguro que desea eliminar la reparación?</DialogTitle>
       <DialogContent>
         <Typography>
@@ -56,38 +59,16 @@ export function DeleteDialog(props: RepairChangeStatusDialogProps) {
         </Typography>
       </DialogContent>
       <DialogActions>
-        <Button disabled={isloading} onClick={() => props.onClose()}>
-          NO, CANCELAR
-        </Button>
-        <LoadingButton
-          color="error"
-          loading={isloading}
-          variant="contained"
-          onClick={handleSave}
-          autoFocus
-        >
-          <DeleteIcon fontSize={"small"} sx={{ mr: 1 }} />
-          <span style={{ marginTop: "3px" }}>SI, ELIMINAR</span>
-        </LoadingButton>
+
+        {props.wasDeleted && <DeletedButton />}
+
+        {!props.wasDeleted &&
+          <>
+            {!props.isloading && <CancelButton onClose={props.onClose} />}
+            <DeleteButton isloading={props.isloading} onDelete={props.onDelete} />
+          </>
+        }
       </DialogActions>
     </Dialog>
-  );
-}
-
-export default function DeleteRepairDialog() {
-  const { open, handleClickOpen, handleClose } = useToggleDialog();
-
-  return (
-    <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Open Delete Dialog
-      </Button>
-      <DeleteDialog
-        repairId="62bdb3148a08ee00bc4400b1"
-        selectedValue={300}
-        open={open}
-        onClose={handleClose}
-      />
-    </div>
   );
 }
